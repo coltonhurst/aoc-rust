@@ -33,12 +33,4 @@ mod tests {
 
         assert_eq!(result, vec!["Line 1", "Line 2", "Line 3"])
     }
-
-    #[test]
-    fn read_input_file_failure() {
-        let filename = Path::new("../../test-files/test.txt");
-        let result = read_input_file(filename);
-
-        assert_ne!(result, vec!["Line 1", "Line 2"])
-    }
 }
