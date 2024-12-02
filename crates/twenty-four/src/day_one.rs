@@ -61,10 +61,13 @@ pub fn part_two(input: Vec<String>) -> i32 {
     // the number of times they appear. This will be the "lookup"
     // table.
     for num in list_b {
-        match list_b_map.get_key_value(&num) {
-            Some(value) => _ = list_b_map.insert(num, value.1 + 1),
-            None => _ = list_b_map.insert(num, 1),
-        }
+        *list_b_map.entry(num).or_insert(0) += 1;
+
+        // *** Old way ***
+        // match list_b_map.get_key_value(&num) {
+        //     Some(value) => _ = list_b_map.insert(num, value.1 + 1),
+        //     None => _ = list_b_map.insert(num, 1),
+        // }
     }
 
     // Multiply each number in list_a with the number of times
