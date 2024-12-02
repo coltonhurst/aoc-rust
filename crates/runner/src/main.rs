@@ -57,3 +57,15 @@ fn twenty_three_solutions() {
     //     twenty_three::day_two::part_two(day_two_input)
     // );
 }
+
+#[allow(dead_code)]
+fn fifteen_solutions() {
+    // Day 1
+    let day_one_file = Path::new("./input-files/15-1.txt");
+    let day_one_input = read_input_file(day_one_file);
+    println!(
+        "15-1-1: {:?}",
+        fifteen::day_one::part_one(day_one_input.clone())
+    );
+    println!("15-1-2: {:?}", fifteen::day_one::part_two(day_one_input));
+}

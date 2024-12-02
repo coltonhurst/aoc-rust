@@ -6,6 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-twenty-three = { path = "../twenty-three"}
-twenty-four = { path = "../twenty-four"}
+fifteen = { path = "../fifteen" }
+twenty-three = { path = "../twenty-three" }
+twenty-four = { path = "../twenty-four" }
 utils = { path = "../utils" }

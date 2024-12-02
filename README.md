@@ -5,3 +5,4 @@ My [Advent of Code](https://adventofcode.com/) solutions in [Rust](https://www.r
 Years:
 - [2015](./crates/twenty-fifteen)
 - [2023](./crates/twenty-three)
+- [2024](./crates/twenty-four)
