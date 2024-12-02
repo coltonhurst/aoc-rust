@@ -25,10 +25,10 @@ fn twenty_four_solutions() {
         "24-2-1: {:?}",
         twenty_four::day_two::part_one(day_two_input.clone())
     );
-    // println!(
-    //     "24-2-2: {:?}",
-    //     twenty_four::day_two::part_two(day_two_input)
-    // );
+    println!(
+        "24-2-2: {:?}",
+        twenty_four::day_two::part_two(day_two_input)
+    );
 }
 
 #[allow(dead_code)]
