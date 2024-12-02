@@ -3,6 +3,8 @@ use utils::read_input_file;
 
 fn main() {
     twenty_four_solutions();
+    //twenty_three_solutions();
+    //fifteen_solutions();
 }
 
 fn twenty_four_solutions() {
