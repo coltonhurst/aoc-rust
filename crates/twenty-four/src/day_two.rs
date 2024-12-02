@@ -28,44 +28,9 @@ pub fn part_one(input: Vec<String>) -> i32 {
 
     // Check if each level in `numbers` is valid
     // If it is, increment `num_valid_lines`
-    'outer: for level in numbers {
-        let mut ascending = true;
-
-        // Iterate through each number in the level
-        'inner: for (index, num) in level.iter().enumerate() {
-            if index == 0 {
-                // Skip the check for the first number
-                continue 'inner;
-            } else if index == 1 {
-                // Set index to determine if the level is consistently
-                // ascending or descending
-                //   - `ascending` should be true is index 1 > index 0
-                //   - `ascending` should be false if index 1 < index 0
-                ascending = num > level.first().unwrap();
-            }
-
-            if index > 0 {
-                // Verify:
-                //   - The current number follows the pattern established
-                //     by `ascending`
-                //   - There is a difference of at least 1 and at max 3
-                // If any of this fails, break out of the inner loop,
-                // because this level is invalid.
-                let last_num = level.get(index - 1).unwrap();
-                let diff = (num - last_num).abs();
-                if !(1..=3).contains(&diff)
-                    || ascending && num < last_num
-                    || !ascending && num > last_num
-                {
-                    continue 'outer;
-                }
-            }
-
-            // If we are on the last number and it has passed all the checks,
-            // increment `num_valid_lines`, as the line is valid.
-            if index == level.len() - 1 {
-                num_valid_lines += 1;
-            }
+    for level in numbers {
+        if level_is_valid(level) {
+            num_valid_lines += 1;
         }
     }
 
@@ -107,44 +72,9 @@ pub fn part_two(input: Vec<String>) -> i32 {
 
     // Check if each level in `numbers` is valid
     // If it is, increment `num_valid_lines`
-    'outer: for level in numbers {
-        let mut ascending = true;
-
-        // Iterate through each number in the level
-        'inner: for (index, num) in level.iter().enumerate() {
-            if index == 0 {
-                // Skip the check for the first number
-                continue 'inner;
-            } else if index == 1 {
-                // Set index to determine if the level is consistently
-                // ascending or descending
-                //   - `ascending` should be true is index 1 > index 0
-                //   - `ascending` should be false if index 1 < index 0
-                ascending = num > level.first().unwrap();
-            }
-
-            if index > 0 {
-                // Verify:
-                //   - The current number follows the pattern established
-                //     by `ascending`
-                //   - There is a difference of at least 1 and at max 3
-                // If any of this fails, break out of the inner loop,
-                // because this level is invalid.
-                let last_num = level.get(index - 1).unwrap();
-                let diff = (num - last_num).abs();
-                if !(1..=3).contains(&diff)
-                    || ascending && num < last_num
-                    || !ascending && num > last_num
-                {
-                    continue 'outer;
-                }
-            }
-
-            // If we are on the last number and it has passed all the checks,
-            // increment `num_valid_lines`, as the line is valid.
-            if index == level.len() - 1 {
-                num_valid_lines += 1;
-            }
+    for level in numbers {
+        if level_is_valid(level) {
+            num_valid_lines += 1;
         }
     }
 
