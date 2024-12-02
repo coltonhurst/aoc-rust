@@ -17,7 +17,7 @@ pub fn part_one(input: Vec<String>) -> i32 {
     // Fill list_a and list_b, parsed from the input
     for line in input {
         let line_parts: Vec<&str> = line.split("   ").collect();
-        list_a.push(line_parts.get(0).unwrap().parse().unwrap());
+        list_a.push(line_parts.first().unwrap().parse().unwrap());
         list_b.push(line_parts.get(1).unwrap().parse().unwrap());
     }
 
@@ -27,7 +27,7 @@ pub fn part_one(input: Vec<String>) -> i32 {
 
     // Compare the difference between each index
     // Add the difference to sum
-    while list_a.len() > 0 {
+    while !list_a.is_empty() {
         sum += (list_a.pop().unwrap() - list_b.pop().unwrap()).abs();
     }
 
@@ -53,7 +53,7 @@ pub fn part_two(input: Vec<String>) -> i32 {
     // Fill list_a and list_b, parsed from the input
     for line in input {
         let line_parts: Vec<&str> = line.split("   ").collect();
-        list_a.push(line_parts.get(0).unwrap().parse().unwrap());
+        list_a.push(line_parts.first().unwrap().parse().unwrap());
         list_b.push(line_parts.get(1).unwrap().parse().unwrap());
     }
 

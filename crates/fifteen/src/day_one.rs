@@ -9,8 +9,8 @@ pub fn part_one(input: Vec<String>) -> i32 {
 
     for parenthesis in input[0].chars() {
         match parenthesis {
-            '(' => sum = sum + 1,
-            ')' => sum = sum - 1,
+            '(' => sum += 1,
+            ')' => sum -= 1,
             _ => (),
         }
     }
@@ -35,8 +35,8 @@ pub fn part_two(input: Vec<String>) -> usize {
 
     for (index, parenthesis) in input[0].chars().enumerate() {
         match parenthesis {
-            '(' => sum = sum + 1,
-            ')' => sum = sum - 1,
+            '(' => sum += 1,
+            ')' => sum -= 1,
             _ => (),
         }
 

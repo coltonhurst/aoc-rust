@@ -60,7 +60,7 @@ pub fn part_one(input: Vec<String>) -> u32 {
     }
 
     for game in valid_games {
-        sum = sum + game;
+        sum += game;
     }
 
     sum
