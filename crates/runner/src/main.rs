@@ -2,9 +2,24 @@ use std::path::Path;
 use utils::read_input_file;
 
 fn main() {
-    twenty_three_solutions();
+    twenty_four_solutions();
 }
 
+fn twenty_four_solutions() {
+    // Day 1
+    let day_one_file = Path::new("./input-files/24-1.txt");
+    let day_one_input = read_input_file(day_one_file);
+    println!(
+        "24-1-1: {:?}",
+        twenty_four::day_one::part_one(day_one_input.clone())
+    );
+    // println!(
+    //     "24-1-2: {:?}",
+    //     twenty_three::day_one::part_two(day_one_input)
+    // );
+}
+
+#[allow(dead_code)]
 fn twenty_three_solutions() {
     // Day 1
     let day_one_file = Path::new("./input-files/23-1.txt");
@@ -18,7 +33,7 @@ fn twenty_three_solutions() {
         twenty_three::day_one::part_two(day_one_input)
     );
 
-    // Day 1
+    // Day 2
     let day_two_file = Path::new("./input-files/23-2.txt");
     let day_two_input = read_input_file(day_two_file);
     println!(

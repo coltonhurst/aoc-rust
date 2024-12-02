@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 twenty-three = { path = "../twenty-three"}
+twenty-four = { path = "../twenty-four"}
 utils = { path = "../utils" }
