@@ -31,6 +31,18 @@ fn twenty_four_solutions() {
         "24-2-2: {:?}",
         twenty_four::day_two::part_two(day_two_input)
     );
+
+    // Day 3
+    let day_three_file = Path::new("./input-files/24-3.txt");
+    let day_three_input = read_input_file(day_three_file);
+    println!(
+        "24-3-1: {:?}",
+        twenty_four::day_three::part_one(day_three_input.clone())
+    );
+    // println!(
+    //     "24-3-2: {:?}",
+    //     twenty_four::day_three::part_two(day_three_input)
+    // );
 }
 
 #[allow(dead_code)]
