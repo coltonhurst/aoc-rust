@@ -1,7 +1,11 @@
 use regex::Regex;
 
 /*
-    add info
+    Given input, find valid pairs of mul(#,#)
+    where # is a 1 to 3 digit number.
+
+    "Solve" (multiply) the valid pairs and sum
+    the products.
 */
 pub fn part_one(input: Vec<String>) -> i32 {
     let re = Regex::new(r"mul\(\d{1,3},\d{1,3}\)").unwrap();
@@ -21,7 +25,12 @@ pub fn part_one(input: Vec<String>) -> i32 {
 }
 
 /*
-    add info
+    Given input, find valid pairs of mul(#,#)
+    where # is a 1 to 3 digit number.
+
+    "Solve" (multiply) the valid pairs, unless
+    you find "don't()". If you see "do()" again
+    you can resume the multiplying & summing.
 */
 pub fn part_two(input: Vec<String>) -> i32 {
     let re = Regex::new(r"mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)").unwrap();
