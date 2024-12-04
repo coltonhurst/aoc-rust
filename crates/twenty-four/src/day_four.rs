@@ -25,8 +25,6 @@ pub fn part_one(input: Vec<String>) -> i32 {
     let verticals = convert_verticals_into_horizontals(&grid);
     let diagonals_sw_to_ne = convert_diagonals_into_horizontals_sw_ne(&grid);
 
-    println!("converted verticals: {:?}", verticals);
-
     // Check occurrences of XMAS or SAMX and sum them
     check_grid_horizontally(&grid)
         + check_grid_horizontally(&verticals)
