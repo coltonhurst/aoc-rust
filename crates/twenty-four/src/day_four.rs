@@ -33,9 +33,71 @@ pub fn part_one(input: Vec<String>) -> i32 {
         + check_grid_horizontally(&diagonals_se_to_nw)
 }
 
+/*
+    Given a grid of input with consistent dimensions,
+    find all occurrences of two"MAS's in the shape
+    of an X.
+
+    Example:
+
+    M.S
+    .A.
+    M.S
+
+    Return the number of occurrences.
+*/
+pub fn part_two(input: Vec<String>) -> i32 {
+    // The input as a grid of characters
+    let mut grid: Vec<Vec<char>> = Vec::new();
+
+    // Fill the grid from `input`
+    for line in input {
+        let mut new_line: Vec<char> = Vec::new();
+        for character in line.chars() {
+            new_line.push(character);
+        }
+        grid.push(new_line);
+    }
+
+    // Loop through and find the X-MAS shape,
+    // searching by the center 'A'
+    let mut count = 0;
+    for (x, _) in grid.iter().enumerate() {
+        for (y, _) in grid[x].iter().enumerate() {
+            // If we'll go out of bounds when checking,
+            // or the character is not an 'A', skip this iteration
+            if x < 1 || x >= grid.len() - 1 || y < 1 || y >= grid[x].len() - 1 || grid[x][y] != 'A'
+            {
+                continue;
+            }
+
+            // Create two lines through the center 'A'
+            let swne_line: String = vec![grid[x + 1][y - 1], 'A', grid[x - 1][y + 1]]
+                .iter()
+                .collect();
+            let senw_line: String = vec![grid[x + 1][y + 1], 'A', grid[x - 1][y - 1]]
+                .iter()
+                .collect();
+
+            // If both lines have 'MAS' in either direction, increment count
+            if (swne_line.contains("MAS") || reverse(&swne_line).contains("MAS"))
+                && (senw_line.contains("MAS") || reverse(&senw_line).contains("MAS"))
+            {
+                count += 1;
+            }
+        }
+    }
+
+    count
+}
+
 enum DiagonalDirection {
     SWNE,
     SENW,
+}
+
+fn reverse(s: &str) -> String {
+    s.chars().rev().collect()
 }
 
 /*
@@ -352,5 +414,36 @@ mod tests {
             expected_output_senw,
             convert_diagonals_into_horizontals(&input, DiagonalDirection::SENW)
         );
+    }
+
+    #[test]
+    fn part_two_success() {
+        // let input: Vec<Vec<char>> = vec![
+        //     vec!['.', 'M', '.', 'S', '.', '.', '.', '.', '.', '.'],
+        //     vec!['.', '.', 'A', '.', '.', 'M', 'S', 'M', 'S', '.'],
+        //     vec!['.', 'M', '.', 'S', '.', 'M', 'A', 'A', '.', '.'],
+        //     vec!['.', '.', 'A', '.', 'A', 'S', 'M', 'S', 'M', '.'],
+        //     vec!['.', 'M', '.', 'S', '.', 'M', '.', '.', '.', '.'],
+        //     vec!['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        //     vec!['S', '.', 'S', '.', 'S', '.', 'S', '.', 'S', '.'],
+        //     vec!['.', 'A', '.', 'A', '.', 'A', '.', 'A', '.', '.'],
+        //     vec!['M', '.', 'M', '.', 'M', '.', 'M', '.', 'M', '.'],
+        //     vec!['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        // ];
+
+        let input = vec![
+            ".M.S......".to_string(),
+            "..A..MSMS.".to_string(),
+            ".M.S.MAA..".to_string(),
+            "..A.ASMSM.".to_string(),
+            ".M.S.M....".to_string(),
+            "..........".to_string(),
+            "S.S.S.S.S.".to_string(),
+            ".A.A.A.A..".to_string(),
+            "M.M.M.M.M.".to_string(),
+            "..........".to_string(),
+        ];
+
+        assert_eq!(9, part_two(input));
     }
 }
