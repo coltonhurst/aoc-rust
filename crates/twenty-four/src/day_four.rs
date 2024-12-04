@@ -23,12 +23,19 @@ pub fn part_one(input: Vec<String>) -> i32 {
     // Get 2d grids for horizontal checking
     // from the input vertically & horizontally
     let verticals = convert_verticals_into_horizontals(&grid);
-    let diagonals_sw_to_ne = convert_diagonals_into_horizontals_sw_ne(&grid);
+    let diagonals_sw_to_ne = convert_diagonals_into_horizontals(&grid, DiagonalDirection::SWNE);
+    let diagonals_se_to_nw = convert_diagonals_into_horizontals(&grid, DiagonalDirection::SENW);
 
     // Check occurrences of XMAS or SAMX and sum them
     check_grid_horizontally(&grid)
         + check_grid_horizontally(&verticals)
         + check_grid_horizontally(&diagonals_sw_to_ne)
+        + check_grid_horizontally(&diagonals_se_to_nw)
+}
+
+enum DiagonalDirection {
+    SWNE,
+    SENW,
 }
 
 /*
@@ -96,7 +103,11 @@ fn convert_verticals_into_horizontals(input: &Vec<Vec<char>>) -> Vec<Vec<char>> 
 
 /*
     Given a 2d square vector of characters,
-    turn the sw -> ne diagonals into horizontal lines.
+    turn the diagonals into horizontal lines.
+
+    Diagonal direction can be:
+    - SW->NE = DiagonalDirection::SWNE
+    - SE->NW = DiagonalDirection::SENW
 
     -----
 
@@ -129,7 +140,10 @@ fn convert_verticals_into_horizontals(input: &Vec<Vec<char>>) -> Vec<Vec<char>> 
     character & the y values increase. This is because
     of the SW -> NE direction.
 */
-fn convert_diagonals_into_horizontals_sw_ne(input: &Vec<Vec<char>>) -> Vec<Vec<char>> {
+fn convert_diagonals_into_horizontals(
+    input: &Vec<Vec<char>>,
+    dir: DiagonalDirection,
+) -> Vec<Vec<char>> {
     let mut result: Vec<Vec<char>> = Vec::new();
 
     let num_diagonals = input.len() * 2 - 1;
@@ -137,59 +151,61 @@ fn convert_diagonals_into_horizontals_sw_ne(input: &Vec<Vec<char>>) -> Vec<Vec<c
     let mut starting_x = 0;
     let mut starting_y = 0;
 
+    if let DiagonalDirection::SENW = dir {
+        starting_y = input[0].len() - 1;
+    }
+
     // Loop through every diagonal
     for current_diagonal in 0..num_diagonals {
         let mut line: Vec<char> = Vec::new();
+        let mut x = starting_x;
+        let mut y = starting_y;
 
-        // If we are in the first half of the diagonals
-        // (including the middle)
-        if current_diagonal <= num_diagonals / 2 {
-            let mut x = starting_x;
-            let mut y = starting_y;
+        // Add each character in the line
+        for _ in 0..num_characters_in_line {
+            line.push(input[x][y]);
 
-            // Loop through the number of characters in that diagonal,
-            // adding each to `line`
-            for _ in 0..num_characters_in_line {
-                line.push(input[x][y]);
-
-                if x > 0 {
+            if let DiagonalDirection::SENW = dir {
+                if x > 0 && y > 0 {
                     x -= 1;
-                    y += 1;
+                    y -= 1;
                 }
-            }
-
-            // As long as it's not the middle diagonal...
-            if starting_x < num_diagonals / 2 {
-                starting_x += 1;
-                num_characters_in_line += 1;
-            }
-            // If it is the middle diagonal, prep
-            // for the back half
-            else {
-                starting_y += 1;
-                num_characters_in_line -= 1;
-            }
-
-            // Add the line to result
-            result.push(line);
-        }
-        // If we are in the second half of the diagonals
-        else {
-            let mut x = starting_x;
-            let mut y = starting_y;
-
-            for _ in 0..num_characters_in_line {
-                line.push(input[x][y]);
-
+            } else if x > 0 {
                 x -= 1;
                 y += 1;
             }
-
-            starting_y += 1;
-            num_characters_in_line -= 1;
-
-            result.push(line);
         }
+
+        // If dir = SENW
+        if let DiagonalDirection::SENW = dir {
+            // If we are in the first half of the diagonals
+            if current_diagonal < num_diagonals / 2 {
+                starting_x += 1;
+                num_characters_in_line += 1;
+            }
+            // If we are at the middle diagonal or
+            // second half of the diagonals
+            else if current_diagonal >= num_diagonals / 2 && starting_y > 0 {
+                starting_y -= 1;
+                num_characters_in_line -= 1;
+            }
+        }
+        // If dir = SWNE
+        else {
+            // If we are in the first half of the diagonals
+            if current_diagonal < num_diagonals / 2 {
+                starting_x += 1;
+                num_characters_in_line += 1;
+            }
+            // If we are at the middle diagonal or
+            // second half of the diagonals
+            else if current_diagonal >= num_diagonals / 2 {
+                starting_y += 1;
+                num_characters_in_line -= 1;
+            }
+        }
+
+        result.push(line);
     }
 
     result
@@ -273,7 +289,7 @@ mod tests {
 
         assert_eq!(
             expected_output,
-            convert_diagonals_into_horizontals_sw_ne(&input)
+            convert_diagonals_into_horizontals(&input, DiagonalDirection::SWNE)
         );
     }
 
@@ -297,7 +313,44 @@ mod tests {
 
         assert_eq!(
             expected_output,
-            convert_diagonals_into_horizontals_sw_ne(&input)
+            convert_diagonals_into_horizontals(&input, DiagonalDirection::SWNE)
+        );
+    }
+
+    #[test]
+    fn convert_diagonals_into_horizontals_4x4_success() {
+        let input: Vec<Vec<char>> = vec![
+            vec!['A', 'B', 'C', 'D'],
+            vec!['E', 'F', 'G', 'H'],
+            vec!['I', 'J', 'K', 'L'],
+            vec!['M', 'N', 'O', 'P'],
+        ];
+        let expected_output_swne: Vec<Vec<char>> = vec![
+            vec!['A'],
+            vec!['E', 'B'],
+            vec!['I', 'F', 'C'],
+            vec!['M', 'J', 'G', 'D'],
+            vec!['N', 'K', 'H'],
+            vec!['O', 'L'],
+            vec!['P'],
+        ];
+        let expected_output_senw: Vec<Vec<char>> = vec![
+            vec!['D'],
+            vec!['H', 'C'],
+            vec!['L', 'G', 'B'],
+            vec!['P', 'K', 'F', 'A'],
+            vec!['O', 'J', 'E'],
+            vec!['N', 'I'],
+            vec!['M'],
+        ];
+
+        assert_eq!(
+            expected_output_swne,
+            convert_diagonals_into_horizontals(&input, DiagonalDirection::SWNE)
+        );
+        assert_eq!(
+            expected_output_senw,
+            convert_diagonals_into_horizontals(&input, DiagonalDirection::SENW)
         );
     }
 }
