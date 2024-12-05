@@ -7,6 +7,46 @@ use std::collections::HashMap;
     number.
 */
 pub fn part_one(input: Vec<String>) -> i32 {
+    let (rules, updates) = parse_input(input);
+
+    // Sum the midpoint of correctly ordered updates
+    let mut sum = 0;
+    for update in updates {
+        if update_is_valid(&update, &rules) {
+            sum += update[update.len() / 2];
+        }
+    }
+
+    sum
+}
+
+/*
+    Given a set of rules and input,
+    determine the incorrectly-ordered
+    updates. Order them based on the rules,
+    and sum the middle page number.
+*/
+pub fn part_two(input: Vec<String>) -> i32 {
+    // COPIED PART 1, NOT STARTED YET
+
+    let (rules, updates) = parse_input(input);
+
+    // Sum the midpoint of correctly ordered updates
+    let mut sum = 0;
+    for update in updates {
+        if update_is_valid(&update, &rules) {
+            sum += update[update.len() / 2];
+        }
+    }
+
+    sum
+}
+
+/*
+    Given the day 5 input as a Vec<String>,
+    return the rules and update lines.
+*/
+pub fn parse_input(input: Vec<String>) -> (HashMap<i32, Vec<i32>>, Vec<Vec<i32>>) {
     let mut rules: HashMap<i32, Vec<i32>> = HashMap::new();
     let mut updates: Vec<Vec<i32>> = Vec::new();
 
@@ -36,15 +76,7 @@ pub fn part_one(input: Vec<String>) -> i32 {
         }
     }
 
-    // Add the midpoint to sum for valid updates
-    let mut sum = 0;
-    for update in updates {
-        if update_is_valid(&update, &rules) {
-            sum += update[update.len() / 2];
-        }
-    }
-
-    sum
+    (rules, updates)
 }
 
 /*
@@ -80,11 +112,4 @@ fn update_is_valid(update: &Vec<i32>, rules: &HashMap<i32, Vec<i32>>) -> bool {
     }
 
     true
-}
-
-/*
-
-*/
-pub fn part_two(input: Vec<String>) -> i32 {
-    0
 }
