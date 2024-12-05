@@ -16,15 +16,41 @@ pub fn part_one(input: Vec<String>) -> i32 {
         }
 
         if first_half {
-            let line_nums: Vec<i32> = line.split('|').map(|num| num.parse::<i32>().unwrap()).collect();
+            let line_nums: Vec<i32> = line
+                .split('|')
+                .map(|num| num.parse::<i32>().unwrap())
+                .collect();
             rules.push((line_nums[0], line_nums[1]));
         } else {
-            let line_nums: Vec<i32> = line.split(',').map(|num| num.parse::<i32>().unwrap()).collect();
+            let line_nums: Vec<i32> = line
+                .split(',')
+                .map(|num| num.parse::<i32>().unwrap())
+                .collect();
             updates.push(line_nums);
         }
     }
 
-    0
+    // Add the midpoint to sum for valid updates
+    let mut sum = 0;
+    for update in updates {
+        if update_is_valid(&update, &rules) {
+            sum += update[update.len() / 2];
+        }
+    }
+
+    sum
+}
+
+fn update_is_valid(update: &Vec<i32>, rules: &Vec<(i32, i32)>) -> bool {
+    // Check to make sure each number follows all rules
+    for (number_index, number) in update.iter().enumerate() {
+        // Loop through every rule to check
+        for rule in rules {
+            println!("something");
+        }
+    }
+
+    false
 }
 
 /*
