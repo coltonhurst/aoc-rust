@@ -27,16 +27,21 @@ pub fn part_one(input: Vec<String>) -> i32 {
     and sum the middle page number.
 */
 pub fn part_two(input: Vec<String>) -> i32 {
-    // COPIED PART 1, NOT STARTED YET
-
     let (rules, updates) = parse_input(input);
 
-    // Sum the midpoint of correctly ordered updates
-    let mut sum = 0;
+    // Create a list of the incorrectly ordered updates
+    let mut invalid_updates: Vec<Vec<i32>> = Vec::new();
     for update in updates {
-        if update_is_valid(&update, &rules) {
-            sum += update[update.len() / 2];
+        if !update_is_valid(&update, &rules) {
+            invalid_updates.push(update);
         }
+    }
+
+    // Sum the midpoint of the sorted updates
+    let mut sum = 0;
+    for update in invalid_updates {
+        let sorted_update = sort_update(update, &rules);
+        sum += sorted_update[sorted_update.len() / 2];
     }
 
     sum
@@ -112,4 +117,11 @@ fn update_is_valid(update: &Vec<i32>, rules: &HashMap<i32, Vec<i32>>) -> bool {
     }
 
     true
+}
+
+/*
+    Sort an update.
+*/
+fn sort_update(update: Vec<i32>, rules: &HashMap<i32, Vec<i32>>) -> Vec<i32> {
+    update
 }
