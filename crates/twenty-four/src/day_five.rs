@@ -129,7 +129,11 @@ fn update_is_valid(update: &Vec<i32>, rules: &HashMap<i32, Vec<i32>>) -> bool {
         53|13
         29|61
         29|75
-       Pre-Update: 13, 75, 47, 61, 53, 29
+      Rules as HM:
+        75: 13
+        53: 13
+        29: 61, 75
+      Pre-Update: 13, 75, 47, 61, 53, 29
       Post Update: 29, 75, 53, 13, 47, 61
 */
 fn sort_update(update: Vec<i32>, rules: &HashMap<i32, Vec<i32>>) -> Vec<i32> {
