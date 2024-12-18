@@ -134,6 +134,9 @@ pub fn part_two(input: Vec<String>) -> i32 {
     // Valid locations where adding a # makes a loop
     let mut valid_insert_locations: Vec<(usize, usize)> = Vec::new();
 
+    // Invalid locations where we should not add a #
+    let mut invalid_insert_locations: Vec<(usize, usize)> = Vec::new();
+
     // Guard variables
     let mut current_guard_location = (0, 0);
     let mut guard_outside_map = false;
@@ -148,8 +151,8 @@ pub fn part_two(input: Vec<String>) -> i32 {
     }
 
     // Add in front of the guard as a valid location so it won't be checked,
-    // we -1 for this later. (Special rule from instructions.)
-    valid_insert_locations.push((
+    // (Special rule from instructions.)
+    invalid_insert_locations.push((
         current_guard_location.0 as usize - 1,
         current_guard_location.1 as usize,
     ));
@@ -202,6 +205,9 @@ pub fn part_two(input: Vec<String>) -> i32 {
             if !valid_insert_locations.contains(&(
                 next_guard_location.0 as usize,
                 next_guard_location.1 as usize,
+            )) && !invalid_insert_locations.contains(&(
+                next_guard_location.0 as usize,
+                next_guard_location.1 as usize,
             )) {
                 let mut map_copy = map.clone();
                 map_copy[next_guard_location.0 as usize][next_guard_location.1 as usize] = '#';
@@ -213,6 +219,13 @@ pub fn part_two(input: Vec<String>) -> i32 {
                     ));
                 }
             }
+
+            // Add the current location to invalid_insert_locations
+            // so we don't check it again
+            invalid_insert_locations.push((
+                next_guard_location.0 as usize,
+                next_guard_location.1 as usize,
+            ));
 
             // Move the guard
             map[next_guard_location.0 as usize][next_guard_location.1 as usize] =
@@ -226,7 +239,7 @@ pub fn part_two(input: Vec<String>) -> i32 {
         }
     }
 
-    valid_insert_locations.len() as i32 - 1
+    valid_insert_locations.len() as i32
 }
 
 fn is_guard_going_out_of_bounds(map: &Vec<Vec<char>>, next_guard_location: (i32, i32)) -> bool {
