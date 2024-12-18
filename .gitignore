@@ -17,3 +17,6 @@
 
 # Advent of Code input file directories
 input-files/
+
+# IntelliJ
+.idea
