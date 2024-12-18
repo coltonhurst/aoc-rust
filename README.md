@@ -6,3 +6,5 @@ Years:
 - [2024](./crates/twenty-four)
 - [2023](./crates/twenty-three)
 - [2015](./crates/twenty-fifteen)
+
+**Note:** Please know this is non-production & experimental code. This repository should *definitely* not be used as a standard or measurement for anything!
